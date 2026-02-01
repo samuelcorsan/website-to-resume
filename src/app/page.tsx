@@ -53,6 +53,19 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [urlError, setUrlError] = useState<string | null>(null);
 
+  const normalizeUrl = (urlString: string): string => {
+    const trimmed = urlString.trim();
+    if (!trimmed) return trimmed;
+    
+    // If it already has a protocol, return as is
+    if (trimmed.match(/^https?:\/\//i)) {
+      return trimmed;
+    }
+    
+    // Otherwise, add https://
+    return `https://${trimmed}`;
+  };
+
   const validateUrl = (urlString: string): boolean => {
     if (!urlString.trim()) {
       setUrlError(null);
@@ -60,7 +73,8 @@ export default function Home() {
     }
 
     try {
-      const urlObj = new URL(urlString);
+      const normalizedUrl = normalizeUrl(urlString);
+      const urlObj = new URL(normalizedUrl);
       if (!['http:', 'https:'].includes(urlObj.protocol)) {
         setUrlError('URL must start with http:// or https://');
         return false;
@@ -152,6 +166,7 @@ export default function Home() {
       return;
     }
 
+    const normalizedUrl = normalizeUrl(url);
     setLoading(true);
 
     try {
@@ -160,7 +175,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ url, mode }),
+        body: JSON.stringify({ url: normalizedUrl, mode }),
       });
 
       if (!response.ok) {
@@ -547,10 +562,18 @@ export default function Home() {
             <div className="relative">
               <input
                 id="url"
-                type="url"
+                type="text"
                 value={url}
                 onChange={handleUrlChange}
-                onBlur={() => validateUrl(url)}
+                onBlur={() => {
+                  if (url.trim() && !url.match(/^https?:\/\//i)) {
+                    const normalized = normalizeUrl(url);
+                    setUrl(normalized);
+                    validateUrl(normalized);
+                  } else {
+                    validateUrl(url);
+                  }
+                }}
                 placeholder="Paste your portfolio URL..."
                 required
                 disabled={loading}
