@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Firecrawl from '@mendable/firecrawl-js';
-import { renderToBuffer } from '@react-pdf/renderer';
+import { renderToBuffer, DocumentProps } from '@react-pdf/renderer';
 import React from 'react';
 import { ResumePDF } from '@/components/ResumePDF';
 import { parseMarkdownWithGroq } from '@/lib/groqParser';
@@ -142,7 +142,7 @@ export async function POST(request: NextRequest) {
 
     try {
       const pdfBuffer = await renderToBuffer(
-        React.createElement(ResumePDF, { data: resumeData }) as React.ReactElement
+        React.createElement(ResumePDF, { data: resumeData }) as React.ReactElement<DocumentProps>
       );
 
       const pdfArray = new Uint8Array(pdfBuffer);

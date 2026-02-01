@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { renderToBuffer } from '@react-pdf/renderer';
+import { renderToBuffer, DocumentProps } from '@react-pdf/renderer';
 import React from 'react';
 import { ResumePDF } from '@/components/ResumePDF';
 import { Groq } from 'groq-sdk';
@@ -103,7 +103,7 @@ Return ONLY valid JSON in this exact format:
 
     try {
       const pdfBuffer = await renderToBuffer(
-        React.createElement(ResumePDF, { data: modifiedResumeData }) as React.ReactElement
+        React.createElement(ResumePDF, { data: modifiedResumeData }) as React.ReactElement<DocumentProps>
       );
 
       const pdfArray = new Uint8Array(pdfBuffer);
