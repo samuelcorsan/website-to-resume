@@ -1,8 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio to Resume Converter
+
+A Next.js application that converts portfolio websites into professional PDF resumes using [Firecrawl](https://firecrawl.dev) for web scraping and [@react-pdf/renderer](https://react-pdf.org/) for PDF generation.
+
+## Features
+
+- Scrape portfolio websites using Firecrawl
+- Parse website content into structured resume data
+- Generate professional PDF resumes automatically
+- Clean, modern UI with loading states and error handling
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+ 
+- npm, yarn, pnpm, or bun
+- Firecrawl API key ([Get one here](https://firecrawl.dev))
+
+### Installation
+
+1. Clone the repository and install dependencies:
+
+```bash
+npm install --legacy-peer-deps
+```
+
+Note: `--legacy-peer-deps` is required due to React 19 compatibility with @react-pdf/renderer.
+
+2. Create a `.env.local` file in the root directory:
+
+```bash
+FIRECRAWL_API_KEY=your_firecrawl_api_key_here
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+Replace the placeholders with your actual API keys:
+- Get your Firecrawl API key from [firecrawl.dev](https://firecrawl.dev)
+- Get your Groq API key from [console.groq.com](https://console.groq.com)
+
+3. Run the development server:
 
 ```bash
 npm run dev
@@ -14,11 +50,30 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Enter your portfolio website URL in the input field
+2. Click "Generate PDF Resume"
+3. The application will:
+   - Scrape your website content using Firecrawl
+   - Parse the content into structured resume data
+   - Generate a professional PDF resume
+   - Automatically download the PDF file
+
+## How It Works
+
+1. **Web Scraping**: Uses Firecrawl to scrape the portfolio website and extract content as markdown
+2. **AI-Powered Parsing**: Uses Groq AI (Llama 3.1) to intelligently parse the markdown and extract structured resume data (name, experience, education, skills, projects)
+3. **PDF Generation**: Uses @react-pdf/renderer to create a professional PDF resume with proper formatting
+
+## Project Structure
+
+- `src/app/page.tsx` - Main page with form UI
+- `src/app/api/generate-resume/route.ts` - API route for PDF generation
+- `src/components/ResumePDF.tsx` - React PDF component for resume layout
+- `src/lib/groqParser.ts` - Groq AI-powered parser to extract structured resume data from markdown
 
 ## Learn More
 

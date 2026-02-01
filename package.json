@@ -1,5 +1,5 @@
 {
-  "name": "portfolio-to-resume",
+  "name": "website-to-resume",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@mendable/firecrawl-js": "^4.12.0",
+    "@react-pdf/renderer": "^4.3.2",
+    "groq-sdk": "^0.37.0",
+    "marked": "^12.0.0",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3"
